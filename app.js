@@ -1,8 +1,11 @@
 let players = [];
 
-fetch("players.json")
+fetch("https://raw.githubusercontent.com/jangeunjun/TFC_player_profile/main/players.json")
   .then(res => res.json())
-  .then(data => players = data);
+  .then(data => players = data)
+  .catch(err => {
+    console.error("Failed to load players.json:", err);
+  });
 
 function findPlayer() {
   const input = document.getElementById("search").value
@@ -27,5 +30,6 @@ function findPlayer() {
     <p>${player.description}</p>
   `;
 }
+
 
 
