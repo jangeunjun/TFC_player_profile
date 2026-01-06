@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Club Player Lookup</title>
+  <meta charset="UTF-8" />
+  <title>Soccer Club Player Lookup</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    img { max-width: 200px; border-radius: 8px; }
+    #suggestions {
+      border: 1px solid #ccc;
+      max-width: 300px;
+      position: absolute;
+      background: white;
+      z-index: 100;
+      cursor: pointer;
+    }
+    #suggestions div {
+      padding: 5px;
+    }
+    #suggestions div:hover {
+      background-color: #f0f0f0;
+    }
+    /* Container to position suggestions relative to input */
+    .autocomplete-container {
+      position: relative;
+      max-width: 300px;
+    }
   </style>
 </head>
 <body>
+  <h2>Player Lookup</h2>
 
-<h2>Player Lookup</h2>
+  <div class="autocomplete-container">
+    <input
+      id="search"
+      type="text"
+      placeholder="Enter player name"
+      autocomplete="off"
+    />
+    <div id="suggestions"></div>
+  </div>
+  <button onclick="findPlayer()">Search</button>
+  <div id="result"></div>
 
-<input id="search" placeholder="Enter player name" autocomplete="off" oninput="showSuggestions()" />
-<div id="suggestions" style="border:1px solid #ccc; max-width: 300px; position: absolute; background: white; z-index: 100;"></div>
-<button onclick="findPlayer()">Search</button>
-<div id="result"></div>
-
-<div id="result"></div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
-
