@@ -63,12 +63,11 @@ function findPlayer() {
   result.innerHTML = `
     <h3>${player.name}</h3>
     <img src="${player.photo}" alt="${player.name}" style="max-width: 200px;" />
-    <p><strong>Number:</strong> ${player.number}</p>
-    <p><strong>Balance:</strong> ${player.balance}</p>
-    <p><strong>Status:</strong> ${player.status}</p>
-    <p><strong>Uniform:</strong> ${player.uniformName}</p>
-    <p><strong>Size:</strong> ${player.size}</p>
-    <p>${player.description}</p>
+    <p><strong>Account Balance:</strong> ${player.balance}</p>
+    <p><strong>Uniform Name:</strong> ${player.uniformName}</p>
+    <p><strong>Uniform Number:</strong> ${player.number}</p>
+    <p><strong>Uniform Size:</strong> ${player.size}</p>
+    <p><strong>Player Description:</strong> ${player.description}</p>
   `;
 }
 
@@ -197,6 +196,7 @@ async function loadAndMergePlayers() {
 
 // Call the merge loader on page load or script start
 loadAndMergePlayers();
+
 
 
 
