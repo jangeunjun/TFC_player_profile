@@ -11,11 +11,14 @@
 
 <h2>Player Lookup</h2>
 
-<input id="search" placeholder="Enter player name" />
+<input id="search" placeholder="Enter player name" autocomplete="off" oninput="showSuggestions()" />
+<div id="suggestions" style="border:1px solid #ccc; max-width: 300px; position: absolute; background: white; z-index: 100;"></div>
 <button onclick="findPlayer()">Search</button>
+<div id="result"></div>
 
 <div id="result"></div>
 
 <script src="app.js"></script>
 </body>
 </html>
+
