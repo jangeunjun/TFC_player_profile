@@ -62,29 +62,34 @@ function findPlayer() {
 
 
 
-async function fetchSheetCSV() {
+async function fetchSheetCSVByIndex() {
   const url = "https://docs.google.com/spreadsheets/d/18X7f2ebaXdb3CCpftiaSZJn-1BMZfNvypzV4k30zMnY/export?format=csv&gid=0";
   const res = await fetch(url);
   const text = await res.text();
   const lines = text.trim().split("\n");
-  const headers = lines[0].split(",");
 
-  // Indices of the columns we want
-  const wantedColumns = ["Name", "Balance", "Status", "Uniform name", "Size", "No"];
-  const indexes = wantedColumns.map(col => headers.indexOf(col));
+  // Skip the first row if it’s header, or you can just parse all rows if header unreliable
+  // If you want to skip header, start at i=1
+  const dataRows = lines.slice(1); 
 
-  const rows = lines.slice(1).map(line => {
-    const values = line.split(",");
-    let obj = {};
-    wantedColumns.forEach((col, i) => {
-      const idx = indexes[i];
-      obj[col] = idx !== -1 ? (values[idx]?.trim() ?? "") : "";
-    });
-    return obj;
-  });
+  const players = dataRows.map(line => {
+    const cols = line.split(",");
+    // Defensive: ignore rows where Name (col 0) is empty or missing
+    if (!cols[1] || cols[1].trim() === "") return null;
 
-  return rows;
+    return {
+      name: cols[1]?.trim() ?? "",
+      balance: cols[2]?.trim() ?? "",
+      status: cols[3]?.trim() ?? "",
+      uniformName: cols[4]?.trim() ?? "",
+      size: cols[5]?.trim() ?? "",
+      number: cols[6]?.trim() ?? ""
+    };
+  }).filter(p => p !== null); // Remove null rows
+
+  return players;
 }
+
 
 async function fetchLocalJSON() {
   const res = await fetch("https://raw.githubusercontent.com/jangeunjun/TFC_player_profile/main/players.json");
@@ -94,35 +99,32 @@ async function fetchLocalJSON() {
 
 async function loadAndMergePlayers() {
   try {
-    const [sheetData, localData] = await Promise.all([fetchSheetCSV(), fetchLocalJSON()]);
+    const [sheetData, localData] = await Promise.all([fetchSheetCSVByIndex(), fetchLocalJSON()]);
 
-    // Merge by name (case-insensitive)
     window.players = localData.map(localPlayer => {
       const match = sheetData.find(sheetPlayer =>
-        sheetPlayer["Name"].toLowerCase() === localPlayer.name.toLowerCase()
+        sheetPlayer.name.toLowerCase() === localPlayer.name.toLowerCase()
       );
 
-      // Merge sheet columns into local player object (if match found)
       return {
         ...localPlayer,
-        balance: match?.Balance ?? "",
-        status: match?.Status ?? "",
-        uniformName: match?.["Uniform name"] ?? "",
-        size: match?.Size ?? "",
-        number: match?.No ?? localPlayer.number ?? ""
+        balance: match?.balance ?? "",
+        status: match?.status ?? "",
+        uniformName: match?.uniformName ?? "",
+        size: match?.size ?? "",
+        number: match?.number ?? localPlayer.number ?? ""
       };
     });
 
-    console.log("Merged players data:", window.players);
-
-    // You can call your autocomplete/init function here if needed
-    // e.g. initAutocomplete();
+    initAutocomplete();
 
   } catch (err) {
     console.error("Error loading or merging player data:", err);
   }
 }
 
+
 // Call the merge loader on page load or script start
 loadAndMergePlayers();
+
 
