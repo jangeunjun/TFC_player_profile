@@ -1,3 +1,18 @@
+
+document.getElementById("search").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();  // Prevent form submission or unwanted behavior
+    findPlayer();            // Call your search function
+    document.getElementById("suggestions").innerHTML = ""; // Clear suggestions on Enter
+  }
+});
+
+
+
+
+
+
+
 let players = [];
 
 fetch("https://raw.githubusercontent.com/jangeunjun/TFC_player_profile/main/players.json")
@@ -67,6 +82,7 @@ function initAutocomplete() {
   const searchInput = document.getElementById("search");
   const suggestions = document.getElementById("suggestions");
 
+  // Autocomplete input listener ...
   searchInput.addEventListener("input", () => {
     const input = searchInput.value.toLowerCase().trim();
     suggestions.innerHTML = "";
@@ -94,6 +110,15 @@ function initAutocomplete() {
     });
   });
 
+  // Enter key listener for search
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      findPlayer();
+      suggestions.innerHTML = "";
+    }
+  });
+  
   // Hide suggestions when clicking outside
   document.addEventListener("click", e => {
     if (!e.target.closest(".autocomplete-container")) {
