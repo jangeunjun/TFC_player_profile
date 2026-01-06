@@ -18,7 +18,7 @@ function findPlayer() {
   result.innerHTML = `
     <h3>${player.name}</h3>
     <img src="${player.photo}">
-    <p><strong>Position:</strong> ${player.position}</p>
     <p>${player.description}</p>
   `;
 }
+
