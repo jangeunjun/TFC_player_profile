@@ -28,18 +28,39 @@
       max-width: 200px;
       margin-bottom: 10px;
     }
+    
+.search-container {
+  display: flex;
+  align-items: center;
+  max-width: 320px;
+  gap: 8px; /* space between input and button */
+}
+
+#search {
+  flex: 1; /* input takes available width */
+  padding: 6px 8px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 6px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
-  <h2>Player Lookup</h2>
+  <h2>TFC Player Lookup</h2>
 
-  <div class="autocomplete-container">
-    <input id="search" type="text" placeholder="Enter player name" autocomplete="off" />
-    <div id="suggestions"></div>
-  </div>
+<div class="search-container">
+  <input id="search" type="text" placeholder="Enter player name" autocomplete="off" />
   <button onclick="findPlayer()">Search</button>
-  <div id="result"></div>
+</div>
+<div id="suggestions"></div>
+<div id="result"></div>
 
   <script src="app.js"></script>
 </body>
 </html>
+
