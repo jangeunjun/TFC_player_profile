@@ -62,6 +62,52 @@ function findPlayer() {
 
 
 
+
+function initAutocomplete() {
+  const searchInput = document.getElementById("search");
+  const suggestions = document.getElementById("suggestions");
+
+  searchInput.addEventListener("input", () => {
+    const input = searchInput.value.toLowerCase().trim();
+    suggestions.innerHTML = "";
+
+    if (!input) return;
+
+    const matches = window.players.filter(p =>
+      p.name.toLowerCase().includes(input)
+    );
+
+    if (matches.length === 0) {
+      suggestions.innerHTML = "<div style='padding: 5px;'>No matches</div>";
+      return;
+    }
+
+    matches.slice(0, 10).forEach(p => {
+      const div = document.createElement("div");
+      div.textContent = p.name;
+      div.addEventListener("click", () => {
+        searchInput.value = p.name;
+        suggestions.innerHTML = "";
+        findPlayer();
+      });
+      suggestions.appendChild(div);
+    });
+  });
+
+  // Hide suggestions when clicking outside
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".autocomplete-container")) {
+      suggestions.innerHTML = "";
+    }
+  });
+}
+
+
+
+
+
+
+
 async function fetchSheetCSVByIndex() {
   const url = "https://docs.google.com/spreadsheets/d/18X7f2ebaXdb3CCpftiaSZJn-1BMZfNvypzV4k30zMnY/export?format=csv&gid=0";
   const res = await fetch(url);
@@ -126,5 +172,6 @@ async function loadAndMergePlayers() {
 
 // Call the merge loader on page load or script start
 loadAndMergePlayers();
+
 
 
