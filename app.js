@@ -1,7 +1,11 @@
 let players = [];
 
 fetch("https://raw.githubusercontent.com/jangeunjun/TFC_player_profile/main/players.json")
-  .then(res => res.json())
+  .then(res => res.text())
+  .then(text => {
+    console.log("Raw JSON text:", text);
+    return JSON.parse(text);
+  })
   .then(data => players = data)
   .catch(err => {
     console.error("Failed to load players.json:", err);
@@ -30,6 +34,7 @@ function findPlayer() {
     <p>${player.description}</p>
   `;
 }
+
 
 
 
