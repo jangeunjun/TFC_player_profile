@@ -1,17 +1,18 @@
 [
   {
     "name": "Alex F",
-	"photo": "photos/alex f.jpg",
+	"photo": "photos/alex_f.jpg",
     "number": "66",
     "motto": "hahaha"
 	"description": "hehehe"
   },
   {
     "name": "Alex P",
-    "photo": "photos/alex p.jpg",
+    "photo": "photos/alex_p.jpg",
 	"number": "10",
     "motto": "hahaha"
     "description": "hehehe"
   }
 ]
+
 
