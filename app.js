@@ -36,23 +36,28 @@ function selectSuggestion(name) {
 
 function findPlayer() {
   const input = document.getElementById("search").value.toLowerCase().trim();
-  const player = players.find(p => p.name.toLowerCase() === input);
+  const player = window.players.find(p => p.name.toLowerCase() === input);
   const result = document.getElementById("result");
   document.getElementById("suggestions").innerHTML = "";
-  
+
   if (!player) {
     result.innerHTML = "<p>Player not found.</p>";
     return;
   }
-  
+
   result.innerHTML = `
     <h3>${player.name}</h3>
     <img src="${player.photo}" alt="${player.name}" style="max-width: 200px;" />
     <p><strong>Number:</strong> ${player.number}</p>
-    <p><strong>Motto:</strong> ${player.motto}</p>
+    <p><strong>Balance:</strong> ${player.balance}</p>
+    <p><strong>Status:</strong> ${player.status}</p>
+    <p><strong>Uniform:</strong> ${player.uniformName}</p>
+    <p><strong>Size:</strong> ${player.size}</p>
     <p>${player.description}</p>
   `;
 }
+
+
 
 
 
@@ -120,3 +125,4 @@ async function loadAndMergePlayers() {
 
 // Call the merge loader on page load or script start
 loadAndMergePlayers();
+
